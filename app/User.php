@@ -9,6 +9,8 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $appends = ['permission'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -26,4 +28,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function getPermissionAttribute() 
+    {
+        return SiteUser::where('user_id', $this->id)->first();
+    }
 }
