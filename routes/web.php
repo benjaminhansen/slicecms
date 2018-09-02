@@ -12,26 +12,41 @@
 */
 
 Route::group(['prefix' => 'api'], function(){
-    
+
 });
 
 // backside control area
 Route::group(['prefix' => 'control', 'middleware' => 'checkauth'], function(){
     // network admin area
     Route::group(['prefix' => 'network', 'middleware' => 'is_network_admin'], function(){
-
+        Route::get('/', 'Network\\IndexController@index');
+        Route::resource('organizations', 'Network\\OrganizationsController');
+        Route::resource('users', 'Network\\UsersController');
+        Route::resource('themes', 'Network\\ThemesController');
+        Route::resource('settings', 'Network\\SettingsController');
     });
 
     // organization admin area
-    Route::group(['prefix' => 'organization', 'middleware' => 'is_org_admin'], function(){
+    Route::group(['prefix' => 'organizations', 'middleware' => 'is_org_admin'], function(){
+        // my organizations
+        Route::get('/', 'Organization\\IndexController@index');
 
+        Route::group(['prefix' => '{organization_id}'], function(){
+            Route::resource('themes', 'Organization\\ThemesController');
+            Route::resource('settings', 'Organization\\SettingsController');
+            Route::resource('users', 'Organization\\UsersController');
+            Route::resource('sites', 'Organization\\SitesController');
+        });
     });
 
-    // site members area 
+    // site members area
     Route::group(['prefix' => 'site', 'middleware' => 'is_site_member'], function(){
+        // my sites
+        Route::get('/', 'Site\\IndexController@index');
+
         // site admin area
-        Route::group(['prefix' => '{id}/admin', 'middleware' => 'is_site_admin'], function(){
-            
+        Route::group(['prefix' => '{site_id}/admin', 'middleware' => 'is_site_admin'], function(){
+
         });
     });
 });
