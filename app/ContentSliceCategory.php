@@ -8,7 +8,7 @@ class ContentSliceCategory extends Model
 {
     protected $appends = ['category'];
 
-    public function getCategoryAttribute() 
+    public function getCategoryAttribute()
     {
         return Category::find($this->category_id);
     }

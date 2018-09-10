@@ -16,7 +16,10 @@ class CreateThemesTable extends Migration
         Schema::create('themes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('author');
+            $table->longText('description');
+            $table->string('author_name');
+            $table->string('author_email');
+            $table->string('author_website');
             $table->string('version');
             $table->string('uri');
             $table->integer('enabled');

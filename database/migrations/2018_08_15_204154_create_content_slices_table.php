@@ -21,11 +21,12 @@ class CreateContentSlicesTable extends Migration
             $table->string('title');
             $table->string('uri');
             $table->longText('content');
-            $table->integer('featured_media_id');
+            $table->integer('featured_media_id')->nullable();
             $table->integer('published');
             $table->integer('publish_later');
             $table->datetime('publish_at')->nullable();
             $table->integer('content_slice_type_id');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

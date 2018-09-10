@@ -20,12 +20,6 @@ class InsertPermissions extends Seeder
                 "updated_at" => now()
             ],
             [
-                "name" => "Organization Administrator",
-                "uri" => "organization-administrator",
-                "created_at" => now(),
-                "updated_at" => now()
-            ],
-            [
                 "name" => "Site Administrator",
                 "uri" => "site-administrator",
                 "created_at" => now(),

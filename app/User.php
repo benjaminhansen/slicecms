@@ -29,7 +29,7 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function getPermissionAttribute() 
+    public function getPermissionAttribute()
     {
         return SiteUser::where('user_id', $this->id)->first();
     }

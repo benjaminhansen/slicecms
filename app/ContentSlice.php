@@ -8,37 +8,37 @@ class ContentSlice extends Model
 {
     protected $appends = ['versions', 'creator', 'last_updater', 'featured_media', 'tags', 'categories', 'slice_type'];
 
-    public function getVersionsAttribute() 
+    public function getVersionsAttribute()
     {
         return ContentSliceVersion::where('slice_id', $this->id)->get();
     }
 
-    public function getCreatorAttribute() 
+    public function getCreatorAttribute()
     {
         return User::find($this->created_by_id);
     }
 
-    public function getLastUpdaterAttribute() 
+    public function getLastUpdaterAttribute()
     {
         return User::find($this->last_updated_by_id);
     }
 
-    public function getFeaturedMediaAttribute() 
+    public function getFeaturedMediaAttribute()
     {
         return Media::find($this->featured_media_id);
     }
 
-    public function getTagsAttribute() 
+    public function getTagsAttribute()
     {
-        return ContentSliceTag::where('slice_id', $this->id)->get();
+        return ContentSliceTag::where('content_slice_id', $this->id)->get();
     }
 
-    public function getCategoriesAttribute() 
+    public function getCategoriesAttribute()
     {
         return ContentSliceCategory::where('slice_id', $this->id)->get();
     }
 
-    public function getSliceTypeAttribute() 
+    public function getSliceTypeAttribute()
     {
         return ContentSliceType::find($this->content_slice_type_id);
     }

@@ -26,19 +26,6 @@ Route::group(['prefix' => 'control', 'middleware' => 'checkauth'], function(){
         Route::resource('settings', 'Network\\SettingsController');
     });
 
-    // organization admin area
-    Route::group(['prefix' => 'organizations', 'middleware' => 'is_org_admin'], function(){
-        // my organizations
-        Route::get('/', 'Organization\\IndexController@index');
-
-        Route::group(['prefix' => '{organization_id}'], function(){
-            Route::resource('themes', 'Organization\\ThemesController');
-            Route::resource('settings', 'Organization\\SettingsController');
-            Route::resource('users', 'Organization\\UsersController');
-            Route::resource('sites', 'Organization\\SitesController');
-        });
-    });
-
     // site members area
     Route::group(['prefix' => 'site', 'middleware' => 'is_site_member'], function(){
         // my sites
@@ -50,3 +37,5 @@ Route::group(['prefix' => 'control', 'middleware' => 'checkauth'], function(){
         });
     });
 });
+
+Route::get('{slug}', 'CMSController@site')->where('slug', '.*');

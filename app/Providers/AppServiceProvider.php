@@ -17,24 +17,30 @@ class AppServiceProvider extends ServiceProvider
         if(!app()->runningInConsole()) {
             $hostname = request()->getHost();
             $parts = explode(".", $hostname);
-            $subdomain = $parts[0];
 
-            if(env('APP_ENABLE_SUBDOMAIN_CHECK')) {
-                $site = Site::where('uri', $subdomain)->first();
-                if(!$site) {
-                    return die("Site [$hostname] was not found!");
-                }
-
-                if(!$site->organization->enabled) {
-                    return die("This site's organization has been disabled!");
-                }
-
-                if(!$site->enabled) {
-                    return die("This site has been disabled!");
-                }
-
-                session()->put('site_id', $site->id);
+            if(count($parts) == 2) {
+                $subdomain = $hostname;
+            } else {
+                $subdomain = $parts[0];
             }
+
+            $site = Site::where('uri', $subdomain)->first();
+            if(!$site) {
+                $message = "Site [$hostname] was not found!";
+                return die($message);
+            }
+
+            if(!$site->enabled) {
+                $message = "This site has been disabled!";
+                return die($message);
+            }
+
+            session()->put('site_id', $site->id);
+
+            // register view namespace
+            $assigned_theme_uri = site()->assigned_theme->uri;
+            $theme_path = themes_path($assigned_theme_uri);
+            $this->app['view']->addNamespace('theme', $theme_path);
         }
     }
 

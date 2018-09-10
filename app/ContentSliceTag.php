@@ -8,7 +8,7 @@ class ContentSliceTag extends Model
 {
     protected $appends = ['tag'];
 
-    public function getTagAttribute() 
+    public function getTagAttribute()
     {
         return Tag::find($this->tag_id);
     }

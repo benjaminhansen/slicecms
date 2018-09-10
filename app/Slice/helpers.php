@@ -6,18 +6,44 @@ function site() {
     return SliceCMS::{__FUNCTION__}();
 }
 
-function assigned_theme() {
-    return site()->{__FUNCTION__};
+function themes_path($uri = null) {
+    return public_path("themes/$uri");
 }
 
-function themes() {
-    return site()->{__FUNCTION__};
+function theme_uri($uri = null) {
+    $current_theme = site()->assigned_theme;
+    $theme_uri = $current_theme->uri;
+
+    return url("themes/$theme_uri/$uri");
 }
 
-function organization() {
-    return site()->{__FUNCTION__};
+function theme_path($uri = null) {
+    $current_theme = site()->assigned_theme;
+    $theme_uri = $current_theme->uri;
+
+    return themes_path("$theme_uri/$uri");
 }
 
-function settings() {
-    return site()->{__FUNCTION__};
+function stylesheet_uri() {
+    $uri = theme_path('style.css');
+    if(file_exists($uri)) {
+        return theme_uri('style.css');
+    } else {
+        return "#style.css-not-found";
+    }
+}
+
+function title($separator = "|", $include_tagline = true) {
+    $title = session()->get('title');
+    $site = site();
+    $site_name = $site->name;
+    $site_tagline = $site->tagline;
+
+    if($include_tagline) {
+        $final_title = "$title $separator $site_name $separator $site_tagline";
+    } else {
+        $final_title = "$title $separator $site_name";
+    }
+
+    return $final_title;
 }

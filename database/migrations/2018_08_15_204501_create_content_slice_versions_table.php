@@ -19,8 +19,9 @@ class CreateContentSliceVersionsTable extends Migration
             $table->string('title');
             $table->string('uri');
             $table->longText('content');
-            $table->integer('featured_media_id');
+            $table->integer('featured_media_id')->nullable();
             $table->integer('version_created_by_id');
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@ class CreateContentSliceTagTable extends Migration
      */
     public function up()
     {
-        Schema::create('content_slice_tag', function (Blueprint $table) {
+        Schema::create('content_slice_tags', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('content_slice_id');
             $table->integer('tag_id');
@@ -28,6 +28,6 @@ class CreateContentSliceTagTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('content_slice_tag');
+        Schema::dropIfExists('content_slice_tags');
     }
 }

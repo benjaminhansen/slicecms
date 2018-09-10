@@ -8,7 +8,7 @@ class Media extends Model
 {
     protected $appends = ['creator'];
 
-    public function getCreatorAttribute() 
+    public function getCreatorAttribute()
     {
         return User::find($this->uploaded_by_id);
     }

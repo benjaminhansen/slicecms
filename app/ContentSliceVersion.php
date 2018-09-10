@@ -8,12 +8,12 @@ class ContentSliceVersion extends Model
 {
     protected $appends = ['featured_media', 'creator'];
 
-    public function getFeaturedMediaAttribute() 
+    public function getFeaturedMediaAttribute()
     {
         return Media::find($this->featured_media_id);
     }
 
-    public function getCreatorAttribute() 
+    public function getCreatorAttribute()
     {
         return User::find($this->version_created_by_id);
     }

@@ -1,0 +1,10 @@
+{
+    "name": "BJ Hansen Test Theme",
+    "version": "1.0",
+    "author": {
+        "name": "BJ Hansen",
+        "email": "bjhansen@benjaminhansen.net",
+        "website": "https://benjaminhansen.net"
+    },
+    "description": "This is v1.0 of BJ Hansen's test theme for the Slice CMS."
+}
