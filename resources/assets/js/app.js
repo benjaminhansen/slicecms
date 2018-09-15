@@ -1,3 +1,4 @@
+require('./bootstrap');
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -12,6 +13,8 @@ window.Vue = require('vue');
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+Vue.component('myprofile', require('./components/MyProfile.vue'));
 
 const app = new Vue({
     el: '#app'

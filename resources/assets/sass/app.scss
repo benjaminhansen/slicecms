@@ -5,3 +5,43 @@
 // Variables
 @import 'variables';
 
+@import '~bootstrap/dist/css/bootstrap.css';
+
+body {
+    padding-top:75px;
+}
+
+label {
+    font-weight: bold;
+}
+
+.avatar {
+    border-radius: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width:30px;
+    height:30px;
+    margin:0 auto;
+}
+
+.avatar-inline {
+    display:block;
+    float:left;
+    margin-right:5px;
+    margin-top:-2px;
+}
+
+.avatar-large {
+    height:250px;
+    width:250px;
+}
+
+.avatar-changer {
+    opacity:.8;
+}
+
+.avatar-changer:hover {
+    opacity:1;
+    cursor:pointer;
+}

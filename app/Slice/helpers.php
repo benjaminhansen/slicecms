@@ -47,3 +47,41 @@ function title($separator = "|", $include_tagline = true) {
 
     return $final_title;
 }
+
+function message() {
+    if(session()->has('message')) {
+        $session_message = session()->get('message');
+        $typeid = $session_message['typeid'];
+        $message = $session_message['message'];
+        $timeout = $session_message['timeout'];
+        $timeout_ms = $timeout * 1000;
+
+        switch($typeid) {
+            case 1:
+                // success
+                $class = "success";
+                break;
+            case 2:
+                // warning
+                $class = "warning";
+                break;
+            case 3:
+                // danger
+                $class = "danger";
+                break;
+            default:
+                // info
+                $class = "info";
+        }
+
+        if($timeout == 0) {
+            $html_timeout = "slicecms-alert";
+        } else {
+            $html_timeout = "slicecms-alert slicecms-alert-timeout-$timeout_ms";
+        }
+
+        $html = "<div class='alert alert-$class $html_timeout'>$message</div>";
+
+        return $html;
+    }
+}

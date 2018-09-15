@@ -9,7 +9,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $appends = ['permission'];
+    protected $appends = ['permission', 'avatar_url'];
 
     /**
      * The attributes that are mass assignable.
@@ -32,5 +32,14 @@ class User extends Authenticatable
     public function getPermissionAttribute()
     {
         return SiteUser::where('user_id', $this->id)->first();
+    }
+
+    public function getAvatarUrlAttribute()
+    {
+        if(is_null($this->avatar)) {
+            return url('images/no-avatar.png');
+        } else {
+            return $this->avatar;
+        }
     }
 }

@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
             }
 
             if(!$site->enabled) {
-                $message = "This site has been disabled!";
+                $message = "This site has been disabled! Please contact the site administrator for more details.";
                 return die($message);
             }
 
