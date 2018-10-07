@@ -27,6 +27,7 @@ class CreateContentSlicesTable extends Migration
             $table->datetime('publish_at')->nullable();
             $table->integer('content_slice_type_id');
             $table->string('description')->nullable();
+            $table->integer('parent_id')->nullable();
             $table->timestamps();
         });
     }

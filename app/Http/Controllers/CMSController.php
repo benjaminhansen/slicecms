@@ -23,7 +23,6 @@ class CMSController extends Controller
             // if we're working with the homepage
             $slice = ContentSlice::where('site_id', $site_id)
                             ->where('uri', '/')
-                            ->where('content_slice_type_id', 1)
                             ->where('published', 1)
                             ->first();
 
@@ -33,9 +32,11 @@ class CMSController extends Controller
                 abort(404, $message);
             }
 
+            $page_type_slug = ContentSliceType::find($slice->content_slice_type_id);
+
             session()->put('title', $slice->title);
 
-            return view('page', compact('slice'));
+            return view(themeView($page_type_slug->uri), compact('slice'));
         } else {
             // if we're not working with the homepage
             $slice_type_uri = $slug_parts[0];
@@ -72,7 +73,7 @@ class CMSController extends Controller
 
                     session()->put('title', $slice->title);
 
-                    return view('post', compact('slice'));
+                    return view(themeView($slice_type_uri), compact('slice'));
                 } else {
                     $message = "404, Page Not Found!";
                     session()->put('title', $message);
@@ -97,7 +98,7 @@ class CMSController extends Controller
 
                 session()->put('title', $slice->title);
 
-                return view('page', compact('slice'));
+                return view(themeView($slice_type_uri), compact('slice'));
             }
         }
     }

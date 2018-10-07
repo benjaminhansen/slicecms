@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ContentSlice extends Model
 {
-    protected $appends = ['versions', 'creator', 'last_updater', 'featured_media', 'tags', 'categories', 'slice_type', 'full_uri', 'full_url'];
+    protected $appends = ['versions', 'creator', 'last_updater', 'featured_media', 'tags', 'categories', 'slice_type', 'full_uri', 'full_url', 'parent'];
 
     public function getVersionsAttribute()
     {
@@ -67,5 +67,10 @@ class ContentSlice extends Model
     public function getFullUrlAttribute()
     {
         return url($this->full_uri);
+    }
+
+    public function getParentAttribute()
+    {
+        return self::find($this->parent_id);
     }
 }
