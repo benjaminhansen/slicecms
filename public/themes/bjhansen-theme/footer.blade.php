@@ -6,5 +6,7 @@
     </div>
 </footer>
 
+@include('slice.footer')
+
 </body>
 </html>

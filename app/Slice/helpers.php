@@ -6,6 +6,10 @@ function site() {
     return SliceCMS::{__FUNCTION__}();
 }
 
+function reloadThemes() {
+    return SliceCMS::{__FUNCTION__}();
+}
+
 function themes_path($uri = null) {
     return public_path("themes/$uri");
 }
@@ -84,4 +88,12 @@ function message() {
 
         return $html;
     }
+}
+
+function defaultNav() {
+    return config('slice.default-nav');
+}
+
+function bootstrapNav() {
+    return config('slice.bootstrap-nav');
 }

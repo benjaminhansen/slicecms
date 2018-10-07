@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Site extends Model
 {
-    protected $appends = ['users', 'media', 'tags', 'categories', 'content_slices', 'assigned_theme', 'themes', 'settings'];
+    protected $appends = ['users', 'media', 'tags', 'categories', 'content_slices', 'assigned_theme', 'themes', 'settings', 'navigation_menus', 'active_navigation_menu'];
 
     public function getUsersAttribute()
     {
@@ -46,5 +46,15 @@ class Site extends Model
     public function getSettingsAttribute()
     {
         return SiteSetting::where('site_id', $this->id)->get();
+    }
+
+    public function getNavigationMenusAttribute()
+    {
+        return NavigationMenu::where('site_id', $this->id)->get();
+    }
+
+    public function getActiveNavigationMenuAttribute()
+    {
+        return NavigationMenu::where('active', 1)->where('site_id', $this->id)->first();
     }
 }

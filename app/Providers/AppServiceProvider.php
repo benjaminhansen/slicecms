@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Site;
+use Request;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,33 +15,26 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if(!app()->runningInConsole()) {
-            $hostname = request()->getHost();
-            $parts = explode(".", $hostname);
+        if(!Request::is('slice/not-found') && !Request::is('slice/disabled')) {
+            if(!app()->runningInConsole()) {
+                $hostname = request()->getHost();
 
-            if(count($parts) == 2) {
-                $subdomain = $hostname;
-            } else {
-                $subdomain = $parts[0];
+                $site = Site::where('uri', $hostname)->first();
+                if(!$site) {
+                    redirect('slice/not-found')->send();
+                }
+
+                if(!$site->enabled) {
+                    redirect('slice/disabled')->send();
+                }
+                
+                session()->put('site_id', $site->id);
+
+                // register view namespace
+                $assigned_theme_uri = site()->assigned_theme->uri;
+                $theme_path = themes_path($assigned_theme_uri);
+                $this->app['view']->addNamespace('theme', $theme_path);
             }
-
-            $site = Site::where('uri', $subdomain)->first();
-            if(!$site) {
-                $message = "Site [$hostname] was not found!";
-                return die($message);
-            }
-
-            if(!$site->enabled) {
-                $message = "This site has been disabled! Please contact the site administrator for more details.";
-                return die($message);
-            }
-
-            session()->put('site_id', $site->id);
-
-            // register view namespace
-            $assigned_theme_uri = site()->assigned_theme->uri;
-            $theme_path = themes_path($assigned_theme_uri);
-            $this->app['view']->addNamespace('theme', $theme_path);
         }
     }
 

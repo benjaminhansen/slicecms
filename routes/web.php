@@ -11,8 +11,9 @@
 |
 */
 
-Route::get('pass', function(){
-    return bcrypt('Bhanse057994');
+Route::group(['prefix' => 'slice'], function(){
+    Route::get('not-found', 'Slice\\NotFoundController@index');
+    Route::get('disabled', 'Slice\\SiteDisabledController@index');
 });
 
 Route::resource('login', 'AuthController');
