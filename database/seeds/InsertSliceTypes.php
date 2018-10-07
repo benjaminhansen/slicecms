@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use DB;
 
 class InsertSliceTypes extends Seeder
 {
@@ -16,12 +15,16 @@ class InsertSliceTypes extends Seeder
             [
                 "name" => "Page",
                 "uri" => "page",
+                "deletable" => 0,
+                "slice_function" => "page",
                 "created_at" => now(),
                 "updated_at" => now()
             ],
             [
                 "name" => "News Post",
-                "uri" => "news-post",
+                "uri" => "news",
+                "deletable" => 0,
+                "slice_function" => "news",
                 "created_at" => now(),
                 "updated_at" => now()
             ],

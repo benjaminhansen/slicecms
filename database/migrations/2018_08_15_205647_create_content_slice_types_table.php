@@ -17,6 +17,8 @@ class CreateContentSliceTypesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('uri');
+            $table->integer('deletable');
+            $table->string('slice_function');
             $table->timestamps();
         });
     }

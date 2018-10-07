@@ -16,38 +16,40 @@ class GenerateMenus
      */
     public function handle($request, Closure $next)
     {
-        $active_menu = site()->active_navigation_menu;
-        $parent_items = $active_menu->parent_items;
-        $child_items = $active_menu->child_items;
+        $available_menus = site()->navigation_menus;
 
-        Menu::make('slice_navigation', function($menu) use ($active_menu, $parent_items, $child_items) {
-            foreach($parent_items as $item) {
-                $slug = str_slug($item->name);
-                $attributes = [
-                    'url' => $item->href
-                ];
+        foreach($available_menus as $this_menu) {
+            $parent_items = $this_menu->parent_items;
+            $child_items = $this_menu->child_items;
 
-                foreach($item->attributes as $attribute) {
-                    $attributes[str_slug($attribute->attribute)] = $attribute->value;
+            Menu::make($this_menu->slug, function($menu) use ($parent_items, $child_items) {
+                foreach($parent_items as $item) {
+                    $slug = str_slug($item->name);
+                    $attributes = [
+                        'url' => $item->href
+                    ];
+
+                    foreach($item->attributes as $attribute) {
+                        $attributes[str_slug($attribute->attribute)] = $attribute->value;
+                    }
+
+                    $menu->add($item->name, $attributes)->id($item->id);
                 }
 
-                $menu->add($item->name, $attributes)->nickname($slug);
-            }
+                foreach($child_items as $child) {
+                    $attributes = [
+                        'url' => $child->href,
+                        'parent' => $child->parent->id
+                    ];
 
-            foreach($child_items as $child) {
-                $slug = str_slug($child->parent->name);
-                $attributes = [
-                    'url' => $child->href,
-                    'parent' => $menu->{$slug}->id
-                ];
+                    foreach($child->attributes as $attribute) {
+                        $attributes[str_slug($attribute->attribute)] = $attribute->value;
+                    }
 
-                foreach($child->attributes as $attribute) {
-                    $attributes[str_slug($attribute->attribute)] = $attribute->value;
+                    $menu->add($child->name, $attributes)->id($child->id);
                 }
-
-                $menu->add($child->name, $attributes);
-            }
-        });
+            });
+        }
 
         return $next($request);
     }

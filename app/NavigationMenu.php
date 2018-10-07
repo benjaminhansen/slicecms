@@ -30,7 +30,7 @@ class NavigationMenu extends Model
 
     public function getChildItemsAttribute()
     {
-        $items = NavigationMenuItem::whereNotNull('parent_id')->where('navigation_menu_id', $this->id)->orderBy('order')->get();
+        $items = NavigationMenuItem::whereNotNull('parent_id')->where('navigation_menu_id', $this->id)->orderBy('parent_id')->orderBy('order')->get();
         if(is_null($items)) {
             return [];
         } else {

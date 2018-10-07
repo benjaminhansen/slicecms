@@ -11,11 +11,8 @@
     </div>
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-          @include(bootstrapNav(), ['items' => $slice_navigation->roots()])
+          @include(nav('bootstrap3'), ['items' => $test_menu->roots()])
       </ul>
-      <!--
-      @include(defaultNav(), $data = ['class' => 'nav navbar-nav navbar-left'])
-      -->
     </div><!--/.nav-collapse -->
   </div>
 </nav>

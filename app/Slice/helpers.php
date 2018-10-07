@@ -90,10 +90,16 @@ function message() {
     }
 }
 
-function defaultNav() {
-    return config('slice.default-nav');
+function nav($type) {
+    if(view()->exists("slice.nav.$type")) {
+        return "slice.nav.$type";
+    } else if(view()->exists("theme::extra-navs.$type")) {
+        return "theme::extra-navs.$type";
+    } else {
+        throw new Exception("Nav type [$type] could not be found!");
+    }
 }
 
-function bootstrapNav() {
-    return config('slice.bootstrap-nav');
+function str_slug_underscore($slug) {
+    return str_replace("-", "_", str_slug($slug));
 }

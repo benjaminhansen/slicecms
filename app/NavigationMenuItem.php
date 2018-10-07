@@ -18,6 +18,15 @@ class NavigationMenuItem extends Model
         return self::where('parent_id', $this->id)->orderBy('order')->get();
     }
 
+    public function hasChildren()
+    {
+        if($this->children->count()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function getParentAttribute()
     {
         return self::find($this->parent_id);
