@@ -19,6 +19,7 @@ class CreateContentSliceTypesTable extends Migration
             $table->string('uri');
             $table->integer('deletable');
             $table->string('slice_function');
+            $table->integer('date_dependent');
             $table->timestamps();
         });
     }

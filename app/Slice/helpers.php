@@ -100,10 +100,6 @@ function nav($type) {
     }
 }
 
-function str_slug_underscore($slug) {
-    return str_replace("-", "_", str_slug($slug));
-}
-
 function themeView($view) {
     $full_path = "theme::$view";
     if(view()->exists($full_path)) {

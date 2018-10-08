@@ -23,3 +23,8 @@
     margin-top: -1px;
 }
 </style>
+
+<!--
+    Powered by SliceCMS
+    (c){{ date("Y") }} Benjamin Hansen. All Rights Reserved.
+-->

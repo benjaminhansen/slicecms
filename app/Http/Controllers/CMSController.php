@@ -10,8 +10,7 @@ class CMSController extends Controller
 {
     public function site($slug = null)
     {
-        $site = site();
-        $site_id = $site->id;
+        $site_id = site()->id;
 
         if(is_null($slug)) {
             $slug_parts = ['/'];
@@ -21,22 +20,31 @@ class CMSController extends Controller
 
         if(count($slug_parts) == 1 && $slug_parts[0] == "/") {
             // if we're working with the homepage
-            $slice = ContentSlice::where('site_id', $site_id)
-                            ->where('uri', '/')
-                            ->where('published', 1)
-                            ->first();
 
-            if(!$slice) {
-                $message = "404, Page Not Found!";
-                session()->put('title', $message);
-                abort(404, $message);
+            if(view()->exists('theme::index')) {
+                $slice_title = "Home";
+
+                session()->put('title', $slice_title);
+
+                return view(themeView('index'));
+            } else {
+                $slice = ContentSlice::where('site_id', $site_id)
+                                ->where('uri', '/')
+                                ->where('published', 1)
+                                ->first();
+
+                if(!$slice) {
+                    $message = "404, Page Not Found!";
+                    session()->put('title', $message);
+                    abort(404, $message);
+                }
+
+                $page_type_slug = $slice->slice_type->uri;
+
+                session()->put('title', $slice->title);
+
+                return view(themeView($page_type_slug), compact('slice'));
             }
-
-            $page_type_slug = ContentSliceType::find($slice->content_slice_type_id);
-
-            session()->put('title', $slice->title);
-
-            return view(themeView($page_type_slug->uri), compact('slice'));
         } else {
             // if we're not working with the homepage
             $slice_type_uri = $slug_parts[0];
@@ -49,9 +57,9 @@ class CMSController extends Controller
 
             if(count($slug_parts) == 5 && @checkdate($slug_parts[2], $slug_parts[3], $slug_parts[1])) {
                 // if it's a news post
-                $news_slice = ContentSliceType::where('slice_function', 'news')->first();
+                $news_slice = ContentSliceType::where('date_dependent', 1)->where('uri', $slice_type_uri)->first();
 
-                if($slice_type_uri == $news_slice->uri) {
+                if($news_slice) {
                     $year = $slug_parts[1];
                     $month = $slug_parts[2];
                     $day = $slug_parts[3];
@@ -94,6 +102,10 @@ class CMSController extends Controller
                     $message = "404, Page Not Found!";
                     session()->put('title', $message);
                     abort(404, $message);
+                }
+
+                if($slice_type_exists->date_dependent) {
+                    return redirect($slice->full_url);
                 }
 
                 session()->put('title', $slice->title);

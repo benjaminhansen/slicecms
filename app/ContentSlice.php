@@ -47,12 +47,11 @@ class ContentSlice extends Model
     {
         $slice_uri = $this->uri;
         $slice_type_uri = $this->slice_type->uri;
-        $slice_function = $this->slice_type->slice_function;
-        if($slice_function == "news") {
+        if($this->slice_type->date_dependent) {
             $date = strtotime($this->created_at);
             $year = date("Y", $date);
-            $month = date("M", $date);
-            $day = date("D", $date);
+            $month = date("n", $date);
+            $day = date("d", $date);
 
             return "$slice_type_uri/$year/$month/$day/$slice_uri";
         } else {
